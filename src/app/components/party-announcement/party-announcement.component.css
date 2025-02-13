@@ -1,0 +1,14 @@
+.announcement-log {
+  background-color: #1f1f1f;
+  color: #f8f8f2;
+  padding: 20px;
+  border-radius: 10px;
+  width: 350px;
+  height: 300px;
+  overflow-y: auto;
+  margin-top: 20px;
+}
+
+h2 {
+  color: #ffcc00;
+}
