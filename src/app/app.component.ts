@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 
-import {DungeonComponent} from './components/dungeon/dungeon.component';
-import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
+import {DungeonLogComponent} from './components/dungeon/dungeon-log.component';
 import {PartyAnnouncementComponent} from './components/party-announcement/party-announcement.component';
 
 @Component({
   selector: 'app-root',
-  imports: [DungeonComponent, MatCard, MatCardTitle, MatCardContent, MatCardHeader, PartyAnnouncementComponent],
+  imports: [DungeonLogComponent, PartyAnnouncementComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

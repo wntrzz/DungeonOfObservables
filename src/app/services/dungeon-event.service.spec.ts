@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DungeonEventService } from './dungeon-event.service';
+import { DungeonMasterService } from './dungeon-master.service';
 
 describe('DungeonEventService', () => {
-  let service: DungeonEventService;
+  let service: DungeonMasterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DungeonEventService);
+    service = TestBed.inject(DungeonMasterService);
   });
 
   it('should be created', () => {

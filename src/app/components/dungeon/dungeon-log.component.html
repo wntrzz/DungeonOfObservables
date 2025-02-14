@@ -1,0 +1,20 @@
+<mat-card class="dungeon-log">
+  <mat-card-header> 🛡️ Dungeon Event Log </mat-card-header>
+  <mat-card-content class="log-content">
+    <!--
+      *ngFor iterates over the 'events' array and creates a new <div> for each event.
+      As the component subscribes to DungeonMasterService, new events are added to 'events'.
+      Angular's change detection automatically updates the DOM when 'events' changes.
+    -->
+    <div *ngFor="let event of events">
+      <!--
+        Each event is displayed inside a <p> tag.
+        When a new event is emitted from the subscription, it gets pushed into 'events',
+        triggering Angular to render a new <div> dynamically.
+      -->
+      <p>{{ event }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+

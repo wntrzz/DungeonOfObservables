@@ -1,27 +1,26 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {DungeonEventService} from '../../services/dungeon-event.service';
-import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
+import {DungeonMasterService} from '../../services/dungeon-master.service';
+import {NgForOf} from '@angular/common';
 import {MatCard, MatCardContent, MatCardHeader} from '@angular/material/card';
 
 @Component({
-  selector: 'app-dungeon',
+  selector: 'app-dungeon-log',
   imports: [
     NgForOf,
-    NgIf,
     MatCardHeader,
     MatCard,
     MatCardContent
   ],
-  templateUrl: './dungeon.component.html',
-  styleUrl: './dungeon.component.css'
+  templateUrl: './dungeon-log.component.html',
+  styleUrl: './dungeon-log.component.css'
 })
-export class DungeonComponent  implements  OnInit, OnDestroy{
+export class DungeonLogComponent implements  OnInit, OnDestroy{
   events: string[] = []; //Stores received events from DungeonEventService(Dungeon Log)
   private eventSubscription!: Subscription;
   // Stores the subscription to prevent memory leaks
 
-  constructor(private dungeonEventService: DungeonEventService){}
+  constructor(private dungeonEventService: DungeonMasterService){}
 
   ngOnInit() {
   //ngOnInit(): Lifecycle hook called after the constructor and before the view is initialized.
