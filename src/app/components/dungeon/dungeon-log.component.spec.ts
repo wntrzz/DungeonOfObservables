@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DungeonLogComponent } from './dungeon-log.component';
+import { DungeonLogComponent } from "./dungeon-log.component";
 
-describe('DungeonComponent', () => {
+describe("DungeonComponent", () => {
   let component: DungeonLogComponent;
   let fixture: ComponentFixture<DungeonLogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DungeonLogComponent]
-    })
-    .compileComponents();
+      imports: [DungeonLogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DungeonLogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

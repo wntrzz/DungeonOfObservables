@@ -1,65 +1,122 @@
 import { Injectable } from '@angular/core';
 import { filter, interval, map, Observable, Subject } from 'rxjs';
 
+// The `@Injectable()` decorator marks the class as a service that can be injected into other components or services.
+// It tells Angular that this class can have dependencies injected into it (such as other services or values).
+// The `{ providedIn: 'root' }` part specifies that the service will be provided at the root level of the application.
+// This means that Angular will create a single instance of the service that is shared across the entire application.
+// The service will be available throughout the app without needing to be redefined in individual components.
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
+
+// Services are singletons that are created once for all and stay in memory as long as the application is open
+// A service is created by Angular when a component needs it for the first time.
+// Then, that instance remains unique and shared between all components that inject such service.
+// A service doesn’t get destroyed:
+// It remains in memory as long as your app is open and you don’t close your browser or tab.
 export class DungeonMasterService {
   private eventSubject = new Subject<string>();
 
-  // The `eventSubject` is like the **Dungeon Master’s voice**. It’s a **Subject** in Angular, which acts as both an **Observable** and an **Observer**.
-  // A Subject can emit (send) events and can also listen for data. It’s like the DM, who controls the flow of the game by announcing events,
-  // but also listens to what the players are doing (even though the players don't directly control the DM’s story).
-  // The `eventSubject` is our "event stream," and anyone subscribing to it will hear the announcements, just like players listening for
-  // events during a campaign. This allows **multicast behavior**, so multiple components (players) can subscribe to the same event stream.
+  // `eventSubject` is an instance of `Subject<string>`, serving as both an **Observable** and an **Observer**.
+
+  // ### What is a Subject?
+  // A `Subject` in RxJS allows components to **emit** and **subscribe to** events. Unlike a standard `Observable`,
+  // a `Subject` enables multicast behavior, meaning multiple subscribers receive the same emitted values.
+
+  // ### How It Works
+  // - **Emitting Events**: The `eventSubject` can send event notifications to all subscribed components.
+  // - **Subscribing to Events**: Any component can listen for updates by subscribing to this subject.
+  // - **Multicast Behavior**: Multiple components can subscribe and react to the same events in real time.
+
+  // This makes `eventSubject` a powerful mechanism for managing communication between components in an Angular application.
+
+  // constructor() {
+  //   interval(6000).subscribe(() => {
+  //     const events = ['A dragon appears!', 'You find a hidden door.', 'A mimic attacks!', 'The ground shakes...', 'A Goblin appears!'];
+  //     const randomEvent = events[Math.floor(Math.random() * events.length)];
+  //     this.eventSubject.next(randomEvent);
+  //   });
+  // }
 
   constructor() {
-    // `interval(6000)` is like the **DM’s timer**, periodically announcing new events every 3 seconds.
-    // In D&D, the DM doesn’t announce everything at once; they let the story unfold over time. This is how the **interval()** function works:
-    // it emits a value every 3000 milliseconds, triggering a new event after every interval.
-    // In this case, the DM is setting a **timed interval** to determine how often new events are introduced to the players.
+    // The constructor is a special method that initializes this component or service when it is created.
+    //
+    // ### What Happens Here?
+    // - The constructor is called **before** Angular runs lifecycle hooks like `ngOnInit()`.
+    // - It’s used for setting up dependencies and initializing properties.
+    // - However, **avoid putting complex logic** here—use lifecycle hooks like `ngOnInit()` instead.
+    //
+    // ### Best Practices
+    // - Use the constructor **only** for dependency injection and simple setup.
+    // - Move heavy logic, API calls, or event subscriptions to lifecycle hooks like `ngOnInit()`.
+
     interval(6000).subscribe(() => {
-      const events = [
-        'A dragon appears!',
-        'You find a hidden door.',
-        'A mimic attacks!',
-        'The ground shakes...',
-        'A Goblin appears!'
-      ];
+      // `interval(3000)` creates a timed Observable that emits a value every 3000 milliseconds (3 seconds).
 
-      // `randomEvent`: The DM randomly picks an event from the list to keep the game dynamic and unexpected.
-      // This is like how the Dungeon Master might randomly decide which encounter to throw at the players next — a dragon, goblin, or something else.
+      // ### How It Works
+      // - The `interval()` function acts like a **timer**, emitting values at a fixed interval.
+      // - Each emitted value triggers an event, making it useful for periodic updates.
+
+      // ### Use Case
+      // - Ideal for scenarios where actions need to occur repeatedly over time, such as polling data or updating a UI.
+      // - Since it runs indefinitely, always **unsubscribe** when no longer needed to prevent memory leaks.
+
+      const events = ['A dragon appears!', 'You find a hidden door.', 'A mimic attacks!', 'The ground shakes...', 'A Goblin appears!'];
+
+      // `randomEvent` selects a random event from the `events` array.
+
       const randomEvent = events[Math.floor(Math.random() * events.length)];
+      // ### How It Works
+      // - Uses `Math.random()` to generate a random index within the array length.
+      // - Picks an event at random, ensuring dynamic and unpredictable behavior.
 
-      // `eventSubject.next(randomEvent)`: The DM announces the event to the players.
-      // This is where the **Dungeon Master** sends out the event. `eventSubject.next()` broadcasts the event to any subscriber
-      // (any component that’s listening). It’s like when the DM says, “You see a dragon!” and every player hears it.
+      // ### Use Case
+      // - Useful for randomly selecting game events, notifications, or other unpredictable actions.
+      // - Helps create variety and engagement in the application.
+
       this.eventSubject.next(randomEvent);
+      // `eventSubject.next(randomEvent)` broadcasts the selected event to all subscribers.
+
+      // ### How It Works
+      // - The `next()` method pushes a new value into the `eventSubject`.
+      // - Any component subscribed to `eventSubject` will receive this update in real time.
+
+      // ### Use Case
+      // - Enables communication between components by sending out events.
+      // - Useful for event-driven architectures where multiple parts of the app need to react to the same event.
     });
   }
 
-  // `getEvents()` is how components **subscribe** to the events announced by the Dungeon Master.
-  // In Angular, **Observables** are used to represent data streams, and components can **subscribe** to these streams.
-  // When an event is emitted by the DM (via `eventSubject.next()`), any components subscribed to this stream will **react** to it —
-  // just like the players in D&D react to what the DM announces.
-  // This method is the mechanism that allows other parts of the application (the players) to listen to the stream of events from the DM.
-
+  // getEvents(): Observable<string> {
+  //   return this.eventSubject.asObservable().pipe(
+  //     filter(event => !event.includes('mimic')),
+  //     map(event => `🧙 Dungeon Event: ${event}`)
+  //   );
+  // }
+  // `getEvents()` allows components to **subscribe** to the events broadcasted by the service.
+  // In Angular, **Observables** represent data streams, and components can **subscribe** to these streams.
+  // When an event is emitted by the service (via `eventSubject.next()`), any component subscribed to this stream will **react** to the event.
+  // This method provides the mechanism for other parts of the application to listen to the stream of events.
   getEvents(): Observable<string> {
     return this.eventSubject.asObservable().pipe(
-      // `filter(event => !event.includes('mimic'))`: The DM filters out certain events.
-      // Maybe the players are bored of mimics, so the DM decides **not to mention** them.
-      // In Angular, the `filter` operator is used to only **pass certain events** along the stream and **exclude** the rest.
-      // This allows the DM (or developer) to curate the events and ensure only the most exciting or relevant ones reach the players.
-      // This is an example of **preprocessing** the stream of events to match the needs of the game or application.
+      // `filter(event => !event.includes('mimic'))`: Filters out events that include 'mimic'.
+      // This is useful for excluding certain events from the stream, ensuring only relevant events are passed along.
+      // ### How It Works
+      // - The `filter()` operator checks each event to see if it contains the word 'mimic'.
+      // - If an event contains 'mimic', it is excluded from the stream.
+      // - This ensures that events related to mimics won’t be broadcasted to subscribers.
+      // ### Use Case:
+      // - You may want to filter out specific events based on certain criteria, such as excluding certain items or situations.
       filter(event => !event.includes('mimic')),
 
-      // `map(event => \`🧙 Dungeon Event: ${event}\`)`: The DM adds flair to the announcement.
-      // They might add an emoji or extra description to make the event more exciting — perhaps saying “🧙 Dungeon Event: A dragon appears!”
-      // The `map()` operator in Angular is used to **transform** the data before it’s passed to the subscribers.
-      // The data is **enhanced** in some way (like adding dramatic emojis or changing the format) before being emitted.
-      // This is like the DM giving the players extra flavor to make the game feel more immersive.
-      map(event => `🧙 Dungeon Event: ${event}`)
+      // `map(event => \`🧙 Event: ${event}\`)`: Adds flair to each event by prepending an emoji.
+      // ### How It Works:
+      // - The `map()` operator is used to transform the event data before it is sent to the subscribers.
+      // - The transformation in this case adds a dramatic flair by adding an emoji at the beginning of each event.
+      // ### Use Case:
+      // - You can add extra formatting, like adding specific symbols or prefixes, to enhance the presentation of events.
+      map(event => `🧙 Event: ${event}`)
     );
   }
 }
-

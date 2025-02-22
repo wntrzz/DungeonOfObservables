@@ -1,28 +1,38 @@
 <div class="app-container">
   <h1>🏰 Welcome to the Dungeon of Observables</h1>
-  <p>Brace yourself, adventurer! The dungeon is alive with mystery and danger. Events will unfold as you explore.</p>
+  <p>
+    Brace yourself, adventurer! The dungeon is alive with mystery and danger.
+    Events will unfold as you explore.
+  </p>
 
   <div class="row">
     <app-dungeon-log></app-dungeon-log>
     <div class="info-card">
-      The Dungeon Log acts as the party’s journal, recording significant events as they unfold in the adventure.
-      Just as a Dungeon Master (DM) keeps track of encounters, discoveries, and critical moments, this component listens
-      to the DungeonMasterService and logs each event for reference.
-      The Dungeon Log subscribes to the DungeonMasterService’s event stream, ensuring that every battle, treasure find,
-      and ominous tremor is documented. This allows adventurers to reflect on past events and strategize their next moves.
+      The Dungeon Log acts as the party’s journal, recording significant events
+      as they unfold in the adventure. Just as a Dungeon Master (DM) keeps track
+      of encounters, discoveries, and critical moments, this component listens
+      to the DungeonMasterService and logs each event for reference. The Dungeon
+      Log subscribes to the DungeonMasterService’s event stream, ensuring that
+      every battle, treasure find, and ominous tremor is documented. This allows
+      adventurers to reflect on past events and strategize their next moves.
     </div>
   </div>
 
   <div class="row">
     <app-party-announcement></app-party-announcement>
     <div class="info-card">
-      In the PartyAnnouncementComponent, the DungeonMasterService acts as the storyteller, weaving the tale of the dungeon adventure.
-      Events in the story are managed using observables, which allow the component to asynchronously listen to the ongoing narrative.
-      When the component is initialized, it subscribes to the observable provided by the getEvents() method of DungeonMasterService.
-      This subscription acts as the adventurers' readiness to respond to the unfolding story. As each new event—be it a dragon attack,
-      treasure discovery, or mysterious door opening—is emitted, the component reacts by processing and displaying an announcement.
-      The subscription starts the flow of events, and the component will continue to react to these updates until it unsubscribes,
-      ensuring it doesn't continue listening when it’s no longer needed.
+      In the PartyAnnouncementComponent, the DungeonMasterService acts as the
+      storyteller, weaving the tale of the dungeon adventure. Events in the
+      story are managed using observables, which allow the component to
+      asynchronously listen to the ongoing narrative. When the component is
+      initialized, it subscribes to the observable provided by the getEvents()
+      method of DungeonMasterService. This subscription acts as the adventurers'
+      readiness to respond to the unfolding story. As each new event—be it a
+      dragon attack, treasure discovery, or mysterious door opening—is emitted,
+      the component reacts by processing and displaying an announcement. The
+      subscription starts the flow of events, and the component will continue to
+      react to these updates until it unsubscribes, ensuring it doesn't continue
+      listening when it’s no longer needed.
     </div>
   </div>
 </div>
